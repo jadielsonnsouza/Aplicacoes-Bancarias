@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Transacoes_Bancarias.Enum
 {
-    class enum TipoConta
+    public enum TipoConta
     {
+        PessoaFisica = 1,
+        PessoaJuridica = 2
     }
 }
