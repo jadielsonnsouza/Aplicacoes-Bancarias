@@ -18,7 +18,7 @@ namespace Transacoes_Bancarias
                 switch(opcaoUsuario)
                 {
                     case "1":
-                        //ListarContas();
+                        ListarContas();
                         break;
                     case "2":
                         InserirConta();
@@ -27,10 +27,10 @@ namespace Transacoes_Bancarias
                         //Tranferir();
                         break;
                     case "4":
-                        //Sacar();
+                        Sacar();
                         break;
                     case "5":
-                        //Depositar();
+                        Depositar();
                         break;
                     case "6":
                         //Emprestar();
@@ -51,6 +51,49 @@ namespace Transacoes_Bancarias
             }
 
             Console.WriteLine("Obrigado por utilizar nossos serviços");
+        }
+
+        private static void Depositar()
+        {
+            Console.Write("\nDigite o numero da conta: ");
+            int indiceConta = int.Parse(Console.ReadLine());
+
+            Console.Write("Digite o valor do depósito: ");
+            double valorDeposito = double.Parse(Console.ReadLine());
+
+            listContas[indiceConta].Depositar(valorDeposito);
+        }
+
+        private static void Sacar()
+        {
+            Console.Write("\nDigite o numero da conta: ");
+            int indiceConta = int.Parse(Console.ReadLine());
+
+            Console.Write("Digite o valor do saque: ");
+            double valorSaque = double.Parse(Console.ReadLine());
+
+            listContas[indiceConta].Sacar(valorSaque);
+        }
+
+        private static void ListarContas()
+        {
+            Console.WriteLine("\n---------------");
+            Console.WriteLine("Listar Clientes");
+
+            if (listContas.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Não há clientes cadastrados");
+                Console.ResetColor();
+                return;
+            }
+
+            for (int i = 0; i < listContas.Count; i++)
+            {
+                Conta conta = listContas[i];
+                Console.Write("#{0} - ", i);
+                Console.WriteLine(conta);
+            }
         }
 
         private static void InserirConta()
@@ -90,6 +133,12 @@ namespace Transacoes_Bancarias
                                         nome: entradaNome,
                                         dataAberturaConta: dataAberturaConta);
 
+            listContas.Add(novaConta);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nCliente Cadastrado Com Sucesso");
+            Console.ResetColor();
+
         }
 
         private static string ObterMenu()
@@ -97,6 +146,7 @@ namespace Transacoes_Bancarias
             Console.WriteLine();
             Console.WriteLine("BR - Banco Rendimento, seu dinheiro rende muito mais conosco!!!");            
             Console.WriteLine("---------------------------");
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("1- Listar contas");
             Console.WriteLine("2- Inserir nova conta");
             Console.WriteLine("3- Transferir");
@@ -108,6 +158,7 @@ namespace Transacoes_Bancarias
             Console.WriteLine("C- Limpar Tela");
             Console.WriteLine("X- Sair");
             Console.WriteLine("---------------------------");
+            Console.ResetColor();
             Console.WriteLine();
             Console.Write("Informe a operação desejada: ");
 
