@@ -24,7 +24,7 @@ namespace Transacoes_Bancarias
                         InserirConta();
                         break;
                     case "3":
-                        //Tranferir();
+                        Tranferir();
                         break;
                     case "4":
                         Sacar();
@@ -33,16 +33,19 @@ namespace Transacoes_Bancarias
                         Depositar();
                         break;
                     case "6":
-                        //Emprestar();
+                        Emprestar();
                         break;
                     case "7":
-                        //PagarContar();
+                        PagarContar();
                         break;
                     case "8":
-                        //DeletarConta();
+                        DeletarConta();
                         break;
                     case "C":
                         Console.Clear();
+                        break;
+                    case "X":
+                        Environment.Exit(0);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -51,6 +54,55 @@ namespace Transacoes_Bancarias
             }
 
             Console.WriteLine("Obrigado por utilizar nossos serviços");
+        }
+
+        private static void PagarContar()
+        {
+            Console.Write("\nDigite o numero da conta de usuário: ");
+            int indiceConta = int.Parse(Console.ReadLine());
+
+            Console.Write("\nDigite o nome da conta: ");
+            string nomeConta = Console.ReadLine();
+
+            Console.Write("Digite o valor a ser pago: ");
+            double valorDebito = double.Parse(Console.ReadLine());
+
+            listContas[indiceConta].Pagar(nomeConta, valorDebito);
+        }
+
+        private static void Emprestar()
+        {
+            Console.Write("Digite o número da conta que receberá o empréstimo: ");
+            int indiceConta = int.Parse(Console.ReadLine());
+
+            //Empréstimos em 30% do valor de saldo da conta
+            listContas[indiceConta].Emprestar();
+        }
+
+        private static void DeletarConta()
+        {
+            Console.Write("Digite o número da conta para ser apagada: ");
+            int indiceConta = int.Parse(Console.ReadLine());
+
+            listContas.Remove(listContas[indiceConta]);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nCliente Deletado Com Sucesso");
+            Console.ResetColor();
+        }
+
+        private static void Tranferir()
+        {
+            Console.Write("Digite o número da conta de origem: ");
+            int indiceContaOrigem = int.Parse(Console.ReadLine());
+
+            Console.Write("Digite o numero da conta de destino: ");
+            int indiceContaDestino = int.Parse(Console.ReadLine());
+
+            Console.Write("Digite o valor a ser transferido: ");
+            double valorTransferrencia = double.Parse(Console.ReadLine());
+
+            listContas[indiceContaOrigem].Transferir(valorTransferrencia, listContas[indiceContaDestino]);
         }
 
         private static void Depositar()

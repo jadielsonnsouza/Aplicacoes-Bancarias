@@ -12,7 +12,9 @@ namespace Transacoes_Bancarias.Classes
         private TipoConta TipoConta { get; set; }
         private double Saldo { get; set; }
         private double Credito { get; set; }
+        private double ValorPagar { get; set; }
         private string Nome { get; set; }
+        private string NomeConta { get; set; }
         private DateTime DataAberturaConta { get; set; }
 
         public Conta(TipoConta tipoConta, double saldo, double credito, string nome, DateTime dataAberturaConta)
@@ -35,6 +37,17 @@ namespace Transacoes_Bancarias.Classes
             return retorno;
         }
 
+        public void Pagar(string nomeConta, double valorPagar)
+        {
+            this.NomeConta = nomeConta;
+            this.ValorPagar = valorPagar;
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\nA Conta {this.NomeConta} de valor {this.ValorPagar} será paga");
+            Console.ResetColor();
+            this.Sacar(valorPagar);
+        }
+
         public bool Sacar(double valorSaque)
         {
             //Verifica se há saldo
@@ -55,6 +68,16 @@ namespace Transacoes_Bancarias.Classes
             return true;
         }
 
+        public void Emprestar()
+        {
+            Console.Write($"\nSaldo anterior da conta de {this.Nome} é {this.Saldo}");
+            this.Saldo *= 1.30;
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write($"\nSaldo atual da conta de {this.Nome} é {this.Saldo}");
+            Console.ResetColor();
+        }
+
         public void Depositar(double valorDeposito)
         {
             this.Saldo += valorDeposito;
@@ -62,6 +85,14 @@ namespace Transacoes_Bancarias.Classes
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"\nSaldo atual da conta de {this.Nome} é {this.Saldo}");
             Console.ResetColor();
+        }
+
+        public void Transferir(double valorTransferencia, Conta contaDestino)
+        {
+            if(this.Sacar(valorTransferencia))
+            {
+                contaDestino.Depositar(valorTransferencia);
+            }
         }
     }
 }
